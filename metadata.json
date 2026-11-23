@@ -1,0 +1,6 @@
+{
+  "name": "Presshouse Studio",
+  "description": "On-demand merchandise mockup studio with AI product placement, multi-style variation generation, prompt-driven image editing, and 300 DPI print-ready exports.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
