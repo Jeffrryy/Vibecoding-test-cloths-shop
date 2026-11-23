@@ -31,6 +31,18 @@ import {
   urlToBase64,
 } from './utils/printExport';
 
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
+
+async function parseApiJson(res: Response) {
+  const contentType = res.headers.get('content-type') || '';
+  if (!contentType.includes('application/json')) {
+    throw new Error(
+      'AI mockup endpoints require the Node backend server (server.ts). Static hosts like GitHub Pages serve the interactive placement & 300 DPI print export UI unless VITE_API_BASE_URL is configured.'
+    );
+  }
+  return res.json();
+}
+
 export default function App() {
   // Logo state
   const [logo, setLogo] = useState<LogoAsset | null>(null);
@@ -225,7 +237,7 @@ export default function App() {
       const blankData = await urlToBase64(selectedProduct.blankImageUrl);
       const placementDesc = `Placed at ${scalePct}% scale with horizontal offset ${offsetXPct}% and vertical offset ${offsetYPct}%. Ink treatment: ${inkTreatment}.`;
 
-      const res = await fetch('/api/mockups/generate', {
+      const res = await fetch(`${API_BASE}/api/mockups/generate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -243,7 +255,7 @@ export default function App() {
         }),
       });
 
-      const data = await res.json();
+      const data = await parseApiJson(res);
       if (!res.ok) {
         throw new Error(data.error || 'Mockup generation failed.');
       }
@@ -271,7 +283,7 @@ export default function App() {
 
       try {
         const blankData = await urlToBase64(prod.blankImageUrl);
-        const res = await fetch('/api/mockups/generate', {
+        const res = await fetch(`${API_BASE}/api/mockups/generate`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -290,7 +302,7 @@ export default function App() {
           }),
         });
 
-        const data = await res.json();
+        const data = await parseApiJson(res);
         if (!res.ok) {
           throw new Error(data.error || 'Variation rendering failed.');
         }
@@ -327,7 +339,7 @@ export default function App() {
     let plannedList: VariationSpec[] = variations;
 
     try {
-      const planRes = await fetch('/api/mockups/plan-variations', {
+      const planRes = await fetch(`${API_BASE}/api/mockups/plan-variations`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -337,7 +349,7 @@ export default function App() {
         }),
       });
 
-      const planData = await planRes.json();
+      const planData = await parseApiJson(planRes);
       if (planRes.ok && Array.isArray(planData.variations) && planData.variations.length === 5) {
         const treatments: InkTreatment[] = ['charcoal', 'chalk', 'vermilion', 'halftone', 'original'];
         plannedList = planData.variations.map((item: Partial<VariationSpec>, idx: number) => {
@@ -465,7 +477,7 @@ export default function App() {
         }
       }
 
-      const res = await fetch('/api/images/edit', {
+      const res = await fetch(`${API_BASE}/api/images/edit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -477,7 +489,7 @@ export default function App() {
         }),
       });
 
-      const data = await res.json();
+      const data = await parseApiJson(res);
       if (!res.ok) {
         throw new Error(data.error || 'Image generation failed.');
       }

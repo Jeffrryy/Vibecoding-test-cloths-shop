@@ -1,12 +1,14 @@
 import type { ProductSpec, VariationSpec } from '../types/merch';
 
+const ASSET_BASE = import.meta.env.BASE_URL || '/';
+
 export const PRODUCT_CATALOG: ProductSpec[] = [
   {
     id: 'hoodie',
     name: 'Heavyweight Fleece Hoodie',
     subtitle: '480 GSM Organic Cotton',
     material: 'Brushed Loopback Fleece',
-    blankImageUrl: '/src/assets/images/mockup_heavy_hoodie_1795421426870.jpg',
+    blankImageUrl: `${ASSET_BASE}src/assets/images/mockup_heavy_hoodie_1795421426870.jpg`,
     defaultColorName: 'Heather Ash',
     colorSwatches: [
       { name: 'Heather Ash', hex: '#B9B9B6' },
@@ -26,7 +28,7 @@ export const PRODUCT_CATALOG: ProductSpec[] = [
     name: 'Boxy Crewneck Tee',
     subtitle: '290 GSM Combed Jersey',
     material: 'Garment-Dyed Heavy Jersey',
-    blankImageUrl: '/src/assets/images/mockup_organic_tee_1795421426971.jpg',
+    blankImageUrl: `${ASSET_BASE}src/assets/images/mockup_organic_tee_1795421426971.jpg`,
     defaultColorName: 'Washed Charcoal',
     colorSwatches: [
       { name: 'Washed Charcoal', hex: '#333436' },
@@ -46,7 +48,7 @@ export const PRODUCT_CATALOG: ProductSpec[] = [
     name: 'Unbleached Canvas Tote',
     subtitle: '16 oz Bull Denim Twill',
     material: 'Unbleached Organic Canvas',
-    blankImageUrl: '/src/assets/images/mockup_canvas_tote_1795421426699.jpg',
+    blankImageUrl: `${ASSET_BASE}src/assets/images/mockup_canvas_tote_1795421426699.jpg`,
     defaultColorName: 'Raw Natural',
     colorSwatches: [
       { name: 'Raw Natural', hex: '#E6DEC8' },
@@ -66,7 +68,7 @@ export const PRODUCT_CATALOG: ProductSpec[] = [
     name: 'Stoneware Studio Mug',
     subtitle: '12 oz Matte Glaze Ceramic',
     material: 'Kiln-Fired Stoneware',
-    blankImageUrl: '/src/assets/images/mockup_ceramic_mug_1795421426370.jpg',
+    blankImageUrl: `${ASSET_BASE}src/assets/images/mockup_ceramic_mug_1795421426370.jpg`,
     defaultColorName: 'Speckled Cream',
     colorSwatches: [
       { name: 'Speckled Cream', hex: '#E7E2D6' },

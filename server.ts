@@ -83,6 +83,15 @@ function stripDataUrlPrefix(dataUrlOrBase64: string): { base64: string; mimeType
 async function startServer() {
   const app = express();
   app.use(express.json({ limit: '30mb' }));
+  app.use('/api', (req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    if (req.method === 'OPTIONS') {
+      return res.sendStatus(204);
+    }
+    next();
+  });
 
   app.get('/api/health', (_req, res) => {
     res.json({ ok: true, model: NANO_BANANA_MODEL });
